@@ -8,11 +8,12 @@ class UserAllDataDto {
   name: string;
   email: string;
   theme: string;
+  ui_size : string;
   created_at: Date;
   updated_at: Date;
   access_permissions: AccessLvlAllDataDto;
 }
-
+  
 class CreateUserDto {
   @IsNotEmpty()
   @IsString()
