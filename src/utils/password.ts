@@ -11,4 +11,10 @@ function comparePassword(
   return bcrypt.compare(plainPassword, hashedPassword);
 }
 
-export { hashPassword, comparePassword };
+async function passwordRemover(data : any) : Promise<any> {
+  console.log("data....", data)
+  const {password , ...res} = data;
+  return res;
+}
+
+export { hashPassword, comparePassword, passwordRemover };

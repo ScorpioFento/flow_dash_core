@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
-@Entity('access_lvl')
+@Entity('access_level')
 export class AccessLvlEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -28,6 +28,6 @@ export class AccessLvlEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => UserEntity, (user) => user.access_permissions)
+  @OneToMany(() => UserEntity, user => user.access_permissions)
   user: UserEntity;
 }
