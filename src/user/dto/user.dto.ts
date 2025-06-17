@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { AccessLvlAllDataDto } from './access_lvl.dto';
+import { OrderTypeEnum } from 'src/utils/enums';
 
 class UserAllDataDto {
   id: string;
@@ -35,6 +36,18 @@ class CreateUserDto {
 
 class UpdateUserDto extends PartialType(CreateUserDto) {}
 
+
+class GetUserListDto {
+  @IsNotEmpty()
+  page_number : number;
+
+  @IsNotEmpty()
+  per_page : number;
+
+  order_by : string;
+  order_type : OrderTypeEnum;
+}
+
 class UserListReturnDto {
   data: UserAllDataDto[];
   total: number;
@@ -42,4 +55,4 @@ class UserListReturnDto {
   per_page: number;
 }
 
-export { UserAllDataDto, CreateUserDto, UpdateUserDto, UserListReturnDto };
+export { UserAllDataDto, CreateUserDto, UpdateUserDto, GetUserListDto, UserListReturnDto };

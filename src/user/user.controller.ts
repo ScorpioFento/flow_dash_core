@@ -6,12 +6,24 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ConfigService } from '@nestjs/config';
 import { Error400BadRequest, Error404NotFound } from 'src/utils/error_thrown';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import {
+  CreateUserDto,
+  GetUserListDto,
+  UpdateUserDto,
+  UserListReturnDto,
+} from './dto/user.dto';
 import { SuccessDto } from 'src/utils/global/global_dto';
+import {
+  CreateAccessLvlDto,
+  GetAccessLvlListDto,
+  UpdateAccessLvlDto,
+} from './dto/access_lvl.dto';
+import { ACCESS_PERMISSIONS } from 'src/utils/access_permissions';
 
 @Controller('user')
 export class UserController {
@@ -43,6 +55,13 @@ export class UserController {
     return await this.userService.createUser(body);
   }
 
+  @Get('list')
+  async getUserList(
+    @Query() query: GetUserListDto,
+  ): Promise<UserListReturnDto> {
+    return await this.userService.getUserList(query);
+  }
+
   @Patch('edit/:id')
   async editUser(
     @Body() body: UpdateUserDto,
@@ -54,9 +73,33 @@ export class UserController {
 
   @Delete('delete/:id')
   async deleteUser(@Param('id') id: string): Promise<SuccessDto> {
-    const user = await this.userService.getUserById(id);
     return await this.userService.deleteUser(id);
   }
 
+  @Post('access_level/create')
+  async createAccessLvl(@Body() body: CreateAccessLvlDto): Promise<boolean> {
+    const permissions = ACCESS_PERMISSIONS.filter((val) =>
+      body.permissions.includes(val),
+    );
+    return await this.userService.createAccessLvl({ ...body, permissions });
+  }
 
+  @Get('access_level/list')
+  async getAccessLvlList(@Query() query: GetAccessLvlListDto) {
+    return await this.userService.getAccessLvlList(query);
+  }
+
+  @Patch('access_level/edit/:id')
+  async editAccessLvl(
+    @Body() body: UpdateAccessLvlDto,
+    @Param('id') id: string,
+  ): Promise<SuccessDto> {
+    const accessLvl = await this.userService.getAccessLvlListById(id);
+    return await this.userService.updateAccessLvl({ ...accessLvl, ...body });
+  }
+
+  @Delete('access_level/delete/:id')
+  async deleteAccessLvl(@Param('id') id: string): Promise<SuccessDto> {
+    return await this.userService.deleteAccessLvl(id);
+  }
 }

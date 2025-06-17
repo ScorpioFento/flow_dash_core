@@ -1,0 +1,29 @@
+type QueryFilter = {
+  name: string;
+  type: 'string' | 'Id' | 'number' | 'boolean';
+  key: 'ILike' | 'Equal';
+};
+
+type QueryObject = {
+    filter : QueryFilter[];
+    order : string[];
+}
+
+const QUERY_USER : QueryObject = {
+    filter  : [
+        {name : "name", type : "string", key : "ILike"}
+    ],
+    order : ['created_at']
+}
+
+const QUERY_ACCESS_LVL : QueryObject = {
+    filter : [
+        {name : "name", type : "string", key : "ILike"}
+    ],
+    order : ['created_at']
+}
+
+export {
+    QUERY_USER,
+    QUERY_ACCESS_LVL,
+}

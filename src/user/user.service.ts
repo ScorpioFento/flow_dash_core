@@ -5,11 +5,20 @@ import { Repository } from 'typeorm';
 import { AccessLvlEntity } from './entity/access_lvl.entity';
 import { ConfigService } from '@nestjs/config';
 import { ACCESS_PERMISSIONS } from 'src/utils/access_permissions';
-import { AccessLvlAllDataDto, CreateAccessLvlDto } from './dto/access_lvl.dto';
-import { CreateUserDto } from './dto/user.dto';
+import {
+  AccessLvlAllDataDto,
+  AccessLvlListReturnDto,
+  CreateAccessLvlDto,
+} from './dto/access_lvl.dto';
+import { CreateUserDto, UserListReturnDto } from './dto/user.dto';
 import { hashPassword } from 'src/utils/password';
 import { SuccessDto } from 'src/utils/global/global_dto';
 import { Error404NotFound } from 'src/utils/error_thrown';
+import {
+  paginationHandler,
+  queryHandler,
+} from 'src/utils/global/global_functions';
+import { QUERY_ACCESS_LVL, QUERY_USER } from 'src/utils/queryObj';
 
 @Injectable()
 export class UserService {
@@ -84,6 +93,13 @@ export class UserService {
     return user;
   }
 
+  async getUserList(query: any): Promise<UserListReturnDto> {
+    const [data, total] = await this.userRepo.findAndCount(
+      queryHandler(query, QUERY_USER),
+    );
+    return paginationHandler(data, total, query.page_number, query.per_page);
+  }
+
   async createUser(user: CreateUserDto): Promise<boolean> {
     const hashedPassword = await hashPassword(user.password);
 
@@ -111,6 +127,32 @@ export class UserService {
     return !!(await this.accesslvlRepo.save(this.accesslvlRepo.create(data)));
   }
 
+  async getAccessLvlList(query: any): Promise<AccessLvlListReturnDto> {
+    const [data, total] = await this.accesslvlRepo.findAndCount(
+      queryHandler(query, QUERY_ACCESS_LVL),
+    );
+    return paginationHandler(data, total, query.page_number, query.per_page);
+  }
 
-  
+  async getAccessLvlListById(id: string): Promise<AccessLvlEntity> {
+    const permission = await this.accesslvlRepo.findOne({
+      where: { id },
+    });
+    if (!permission) {
+      Error404NotFound('Not Found Error', 'Access Permission Not Found');
+    }
+    return permission;
+  }
+
+  async updateAccessLvl(permission: AccessLvlEntity): Promise<SuccessDto> {
+    return {
+      success: !!(await this.accesslvlRepo.save(permission)),
+    };
+  }
+
+  async deleteAccessLvl(id: string): Promise<SuccessDto> {
+    return {
+      success: !!(await this.accesslvlRepo.delete(id)),
+    };
+  }
 }
