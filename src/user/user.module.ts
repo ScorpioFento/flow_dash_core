@@ -9,6 +9,5 @@ import { AccessLvlEntity } from './entity/access_lvl.entity';
   imports: [TypeOrmModule.forFeature([UserEntity, AccessLvlEntity])],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService],
 })
 export class UserModule {}

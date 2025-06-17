@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ConfigService } from '@nestjs/config';
@@ -23,7 +24,12 @@ import {
   GetAccessLvlListDto,
   UpdateAccessLvlDto,
 } from './dto/access_lvl.dto';
-import { ACCESS_PERMISSIONS } from 'src/utils/access_permissions';
+import {
+  ACCESS_PERMISSIONS,
+  PermissionEnum,
+} from 'src/utils/access_permissions';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { RequirePermissions } from 'src/auth/permission.decorator';
 
 @Controller('user')
 export class UserController {
@@ -50,11 +56,15 @@ export class UserController {
     return created;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.USER_CREATE)
   @Post('create')
   async createUser(@Body() body: CreateUserDto) {
     return await this.userService.createUser(body);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.USER_READ)
   @Get('list')
   async getUserList(
     @Query() query: GetUserListDto,
@@ -62,6 +72,8 @@ export class UserController {
     return await this.userService.getUserList(query);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.USER_UPDATE)
   @Patch('edit/:id')
   async editUser(
     @Body() body: UpdateUserDto,
@@ -71,11 +83,15 @@ export class UserController {
     return await this.userService.updateUser({ ...user, ...body });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.USER_DELETE)
   @Delete('delete/:id')
   async deleteUser(@Param('id') id: string): Promise<SuccessDto> {
     return await this.userService.deleteUser(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.ACCESS_PERMISSION_CREATE)
   @Post('access_level/create')
   async createAccessLvl(@Body() body: CreateAccessLvlDto): Promise<boolean> {
     const permissions = ACCESS_PERMISSIONS.filter((val) =>
@@ -84,11 +100,15 @@ export class UserController {
     return await this.userService.createAccessLvl({ ...body, permissions });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.ACCESS_PERMISSION_READ)
   @Get('access_level/list')
   async getAccessLvlList(@Query() query: GetAccessLvlListDto) {
     return await this.userService.getAccessLvlList(query);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.ACCESS_PERMISSION_UPDATE)
   @Patch('access_level/edit/:id')
   async editAccessLvl(
     @Body() body: UpdateAccessLvlDto,
@@ -98,6 +118,8 @@ export class UserController {
     return await this.userService.updateAccessLvl({ ...accessLvl, ...body });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions(PermissionEnum.ACCESS_PERMISSION_DELETE)
   @Delete('access_level/delete/:id')
   async deleteAccessLvl(@Param('id') id: string): Promise<SuccessDto> {
     return await this.userService.deleteAccessLvl(id);

@@ -10,7 +10,6 @@ export class AuthController {
   @UseGuards(UserAuthGuard)
   @Post('user')
   async userLogin(@Request() req : any): Promise<LoginReturnDto> {
-    console.log("request user finised passport jwt check...", req.user)
     const {user} = req;
     return await this.authService.userJwt(user);
   }

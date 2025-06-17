@@ -5,10 +5,13 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { AccessLvlEntity } from './access_lvl.entity';
+import { WorkSpaceEntity } from 'src/work_space/entity/work_space.entity';
+import { TaskEntity } from 'src/task/entity/task.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -43,4 +46,10 @@ export class UserEntity {
   @ManyToOne(() => AccessLvlEntity, (access_lvl) => access_lvl.user)
   @JoinColumn({ name: 'access_lvl_id', referencedColumnName: 'id' })
   access_permissions: AccessLvlEntity;
+
+  @OneToMany(() => WorkSpaceEntity, (work_space) => work_space.user)
+  work_space: WorkSpaceEntity;
+
+  @OneToMany(() => TaskEntity, (task) => task.user)
+  task: TaskEntity;
 }

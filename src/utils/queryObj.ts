@@ -5,25 +5,28 @@ type QueryFilter = {
 };
 
 type QueryObject = {
-    filter : QueryFilter[];
-    order : string[];
-}
+  filter: QueryFilter[];
+  order: string[];
+};
 
-const QUERY_USER : QueryObject = {
-    filter  : [
-        {name : "name", type : "string", key : "ILike"}
-    ],
-    order : ['created_at']
-}
+const QUERY_USER: QueryObject = {
+  filter: [{ name: 'name', type: 'string', key: 'ILike' }],
+  order: ['created_at'],
+};
 
-const QUERY_ACCESS_LVL : QueryObject = {
-    filter : [
-        {name : "name", type : "string", key : "ILike"}
-    ],
-    order : ['created_at']
-}
+const QUERY_ACCESS_LVL: QueryObject = {
+  filter: [{ name: 'name', type: 'string', key: 'ILike' }],
+  order: ['created_at'],
+};
 
-export {
-    QUERY_USER,
-    QUERY_ACCESS_LVL,
-}
+const QUERY_WORK_SPACE: QueryObject = {
+  filter: [{ name: 'name', type: 'string', key: 'ILike' }],
+  order: ['created_at'],
+};
+
+const QUERY_TASK: QueryObject = {
+  filter: [{ name: 'name', type: 'string', key: 'ILike' }],
+  order: ['created_at'],
+};
+
+export { QUERY_USER, QUERY_ACCESS_LVL, QUERY_WORK_SPACE, QUERY_TASK };
