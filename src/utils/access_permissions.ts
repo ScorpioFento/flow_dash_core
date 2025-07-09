@@ -23,6 +23,11 @@ const ACCESS_PERMISSIONS = [
   'TASK_CREATE',
   'TASK_UPDATE',
   'TASK_DELETE',
+
+  'NOTE_READ',
+  'NOTE_CREATE',
+  'NOTE_UPDATE',
+  'NOTE_DELETE',
 ];
 
 enum PermissionEnum {
@@ -52,6 +57,11 @@ enum PermissionEnum {
   TASK_CREATE = 'TASK_CREATE',
   TASK_UPDATE = 'TASK_UPDATE',
   TASK_DELETE = 'TASK_DELETE',
+
+  NOTE_READ = 'NOTE_READ',
+  NOTE_CREATE = 'NOTE_CREATE',
+  NOTE_UPDATE = 'NOTE_UPDATE',
+  NOTE_DELETE = 'NOTE_DELETE',
 }
 
 export { ACCESS_PERMISSIONS, PermissionEnum };

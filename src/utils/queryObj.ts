@@ -34,10 +34,16 @@ const QUERY_TASK: QueryObject = {
   order: ['created_at'],
 };
 
+const QUERY_NOTE: QueryObject = {
+  filter: [{ name: 'name', type: 'string', key: 'ILike' }],
+  order: ['created_at'],
+};
+
 export {
   QUERY_USER,
   QUERY_ACCESS_LVL,
   QUERY_WORK_SPACE,
   QUERY_PROJECT,
   QUERY_TASK,
+  QUERY_NOTE,
 };
