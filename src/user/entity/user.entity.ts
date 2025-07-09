@@ -12,6 +12,7 @@ import {
 import { AccessLvlEntity } from './access_lvl.entity';
 import { WorkSpaceEntity } from 'src/work_space/entity/work_space.entity';
 import { TaskEntity } from 'src/task/entity/task.entity';
+import { NoteEntity } from 'src/note/entity/note.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -52,4 +53,7 @@ export class UserEntity {
 
   @OneToMany(() => TaskEntity, (task) => task.user)
   task: TaskEntity;
+
+  @OneToMany(() => NoteEntity, (note) => note.user)
+  note : NoteEntity;
 }

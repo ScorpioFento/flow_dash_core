@@ -1,3 +1,4 @@
+import { NoteEntity } from 'src/note/entity/note.entity';
 import { TaskEntity } from 'src/task/entity/task.entity';
 import { WorkSpaceEntity } from 'src/work_space/entity/work_space.entity';
 import {
@@ -39,4 +40,7 @@ export class ProjectEntity {
   @ManyToOne(() => WorkSpaceEntity, (work_space) => work_space.project)
   @JoinColumn({ name: 'work_space_id', referencedColumnName: 'id' })
   work_space: WorkSpaceEntity;
+
+  @OneToMany(() => NoteEntity, (note) => note.project)
+  note : NoteEntity;
 }

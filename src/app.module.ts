@@ -9,6 +9,7 @@ import { WorkSpaceController } from './work_space/work_space.controller';
 import { WorkSpaceService } from './work_space/work_space.service';
 import { WorkSpaceModule } from './work_space/work_space.module';
 import { TaskModule } from './task/task.module';
+import { NoteModule } from './note/note.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { TaskModule } from './task/task.module';
     UserModule,
     ProjectModule,
     WorkSpaceModule,
-    TaskModule,    
+    TaskModule,
+    NoteModule,    
   ],
 
 })

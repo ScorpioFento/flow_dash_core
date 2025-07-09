@@ -84,7 +84,7 @@ export class UserService {
 
     return await this.accesslvlRepo.save(this.accesslvlRepo.create(payload));
   }
-
+    
   async getUserById(id: string): Promise<UserEntity> {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
